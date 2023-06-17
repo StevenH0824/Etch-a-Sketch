@@ -31,19 +31,18 @@ function gridGenerator(columns) {
         createDiv(i,columns);
     }
     // Adds interaction of JS to the grid
-    interact();
-    button_newgrid();
+    //interact();
+    // Doing too much, I need to make sure the buttons work properly
 }
 
-function interact(){
+function interact(value="black"){
     let grids = document.querySelectorAll('#grid');
 
     grids.forEach((grid) => {
         grid.addEventListener('mouseenter',() => {
-            grid.style.backgroundColor = 'black';
+            grid.style.backgroundColor = value;
         })
     });
-
 }
 
 function removeGrid(){
@@ -51,19 +50,82 @@ function removeGrid(){
     container.innerHTML = "";
 }
 
-function button_newgrid(){
+
+
+function btn_newgrid(){
     const btn = document.querySelector("button");
 
     btn.addEventListener('click',() =>{
     removeGrid();
-    number = prompt("How many boxes do you want inside of the grid");
-    gridGenerator(Number(number),Number(number));
+    gridGenerator(Number(prompt("How many boxes do you want inside of the grid")));
+    interact();
 })
+}
+
+
+function btn_randomColor(){
+    const btn = document.querySelectorAll("button");
+    
+    btn.forEach((button) =>{
+        
+        button.addEventListener('click',() =>{
+            let name = button.outerText;
+            name = name.charAt(0);
+            console.log(name);
+        });
+        /*
+        if (button.outerText.toLocaleLowerCase.charAt(0) == "R"){
+            let colorValue = "rgb(" + Math.floor(Math.random() * (255 - 0+ 1)) + 
+                                 "," + Math.floor(Math.random() * (255 - 0+ 1)) + 
+                                 "," + Math.floor(Math.random() * (255 - 0+ 1)) + ")";
+            interact(colorValue);
+        }
+        */
+    });
+    
+}
+
+
+
+// creating rainbow function here. 
+
+function select_button(){
+    const btn = document.querySelectorAll("button");
+
+    btn.forEach((button) =>{
+        button.addEventListener('click', () =>{
+
+            let grids = document.querySelectorAll("#grid");
+            //console.log(button);
+            let button_char = button.outerText.charAt(0);
+            if ( button_char == "N"){
+                removeGrid();
+                number = prompt("How many boxes do you want inside of the grid");
+                gridGenerator(Number(number),Number(number));
+            }
+
+            if (button_char == "R"){
+                let colorValue = "rgb(" + Math.floor(Math.random() * (255 - 0+ 1)) + 
+                                 "," + Math.floor(Math.random() * (255 - 0+ 1)) + 
+                                 "," + Math.floor(Math.random() * (255 - 0+ 1)) + ")";
+                //grid.style.backgroundColor = colorValue;
+                console.log(colorValue);
+                grid.style.backgroundColor = colorValue;
+                /*
+                grids.forEach((grid) => {
+                    grid.style.backgroundColor = colorValue;
+                })
+                */
+            }
+
+        });
+    });
 }
 
 
 
 
-
-
 gridGenerator(16); // Generating the default grid
+interact();
+btn_newgrid();
+btn_randomColor();
