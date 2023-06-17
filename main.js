@@ -18,30 +18,50 @@ function createDiv(column,row){
         let newDiv = document.createElement('div');
         newDiv.setAttribute("id","grid");
         newDiv.classList.add("rows");
-        // newDiv.classList.add("C" + column + "-R" + i); Debugging
+        newDiv.classList.add("C" + column + "-R" + i); //Debugging
         columnContainer.appendChild(newDiv);
     }
 }
 
-function gridGenerator(columns) {
+function gridGenerator(columns=5) {
     
     createContainers(columns);
     // Iterates and creats new elements for each row in the column
     for (let i = 1; i <= columns; i++){
         createDiv(i,columns);
     }
-    // Adds interaction of JS to the grid
-    //interact();
-    // Doing too much, I need to make sure the buttons work properly
 }
 
-function interact(value="black"){
+function interact(value="Black",brightness=100){
     let grids = document.querySelectorAll('#grid');
 
     grids.forEach((grid) => {
+
         grid.addEventListener('mouseenter',() => {
-            grid.style.backgroundColor = value;
-        })
+            if (value[0] === "B"){
+                grid.style.backgroundColor = value;
+                grid.style.filter = `brightness(${100}%)`
+            }
+            if (value[0] === "W"){
+                grid.style.backgroundColor = value.slice(1);
+                grid.style.filter = `brightness(${100}%)`
+                
+            }
+            if (value[0] === "R"){
+                grid.style.backgroundColor = generateColor();
+                grid.style.filter = `brightness(${80}%)`
+            }
+            if (value[0] === "S"){
+                let darkenBrightness = `${brightness}`;
+                brightness -= 10;
+                grid.style.filter = `brightness(${darkenBrightness}%)`;
+            };
+            if (value[0] === "L"){
+                let darkenBrightness = `${brightness}`;
+                brightness += 10;
+                grid.style.filter = `brightness(${darkenBrightness}%)`;
+            };
+        });
     });
 }
 
@@ -50,20 +70,27 @@ function removeGrid(){
     container.innerHTML = "";
 }
 
-
-
 function btn_newgrid(){
     const btn = document.querySelector("button");
 
     btn.addEventListener('click',() =>{
     removeGrid();
     gridGenerator(Number(prompt("How many boxes do you want inside of the grid")));
-    interact();
+    interact("Black");
 })
 }
 
+randomNumber = () => {
+    let number = Math.floor(Math.random() * (255 - 0 + 1))
+    //console.log(number);
+    return number;
+};
 
-function btn_randomColor(){
+function generateColor(){
+    return  "rgb(" + randomNumber() + "," + randomNumber() + "," + randomNumber() + ")";
+}
+
+function btn_selector(){
     const btn = document.querySelectorAll("button");
     
     btn.forEach((button) =>{
@@ -71,61 +98,37 @@ function btn_randomColor(){
         button.addEventListener('click',() =>{
             let name = button.outerText;
             name = name.charAt(0);
-            console.log(name);
+            //console.log(name); 
+
+            // Random Color 
+            if (name == "R"){
+                interact("R" + generateColor());
+                
+            }
+
+            // Pen Button
+            if (name == "P"){
+                interact("Black");
+            }
+
+            // Erase Button
+            if (name == "E"){
+                interact("W"+ "rgb(255,255,255)"); // white
+            }
+            // Darken Button
+            if (name == "S"){
+                interact("S",100);
+            }
+            if (name == "L"){
+                interact("L",100);
+            }
         });
-        /*
-        if (button.outerText.toLocaleLowerCase.charAt(0) == "R"){
-            let colorValue = "rgb(" + Math.floor(Math.random() * (255 - 0+ 1)) + 
-                                 "," + Math.floor(Math.random() * (255 - 0+ 1)) + 
-                                 "," + Math.floor(Math.random() * (255 - 0+ 1)) + ")";
-            interact(colorValue);
-        }
-        */
     });
     
 }
 
-
-
-// creating rainbow function here. 
-
-function select_button(){
-    const btn = document.querySelectorAll("button");
-
-    btn.forEach((button) =>{
-        button.addEventListener('click', () =>{
-
-            let grids = document.querySelectorAll("#grid");
-            //console.log(button);
-            let button_char = button.outerText.charAt(0);
-            if ( button_char == "N"){
-                removeGrid();
-                number = prompt("How many boxes do you want inside of the grid");
-                gridGenerator(Number(number),Number(number));
-            }
-
-            if (button_char == "R"){
-                let colorValue = "rgb(" + Math.floor(Math.random() * (255 - 0+ 1)) + 
-                                 "," + Math.floor(Math.random() * (255 - 0+ 1)) + 
-                                 "," + Math.floor(Math.random() * (255 - 0+ 1)) + ")";
-                //grid.style.backgroundColor = colorValue;
-                console.log(colorValue);
-                grid.style.backgroundColor = colorValue;
-                /*
-                grids.forEach((grid) => {
-                    grid.style.backgroundColor = colorValue;
-                })
-                */
-            }
-
-        });
-    });
-}
-
-
-
-
-gridGenerator(16); // Generating the default grid
+gridGenerator(4); // Generating the default grid
 interact();
-btn_newgrid();
-btn_randomColor();
+//select_button();
+btn_newgrid(); // Default color is black
+btn_selector();

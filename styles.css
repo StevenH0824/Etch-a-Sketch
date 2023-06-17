@@ -1,6 +1,6 @@
 body {
-    background-color: transparent;
-    margin: 0px;
+    background-color: #9BABB8;
+    margin: -10px;
     padding: 0px;
     display: flex;
     flex-direction: column;
@@ -9,29 +9,36 @@ body {
 }
 
 h1{
+    background-color: #967E76;
+    color: #D7C0AE;
     display: flex;
     justify-content: center;
     align-items: flex-start;
     flex: none;
-    padding:0px;
-    margin: 10px 0px 10px 0px;
+    padding: 20px 0px 20px 0px;
+    margin: 10px 0;    
 }
 
 footer{
+    background-color: #967E76;
+    color: #D7C0AE;
     display:flex;
-    justify-content: center;
+    justify-content: space-around;
     align-items: flex-end;
     flex:none;
     margin: 10px auto;
-    padding: 0px auto;
+    width:100%;
 }
 
+
 .mainContainer{
+    background-color: white;
     display: flex;
     flex-direction: column;
     align-self: center;
-    min-width: 600px;
-    min-height: 600px;
+    min-width: 560px;
+    min-height: 560px;
+    margin-top: -10px;
 }
 
 
@@ -50,8 +57,21 @@ footer{
 }
 
 .Buttons{
+    background-color: #D7C0AE;
     display: flex;
     flex: none;
     justify-content: space-around;
     margin-bottom: 30px;
+    margin-top: -10px;
+    padding: 10px;
+}
+
+button{
+    background-color: #EEE3CB;
+    color: #967E76;
+    /*border-radius: 30px 60px 30px 60px;*/
+    border-radius: 25px;
+    padding: 5px;
+    border-width: thin;
+
 }
